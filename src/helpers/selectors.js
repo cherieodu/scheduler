@@ -20,9 +20,13 @@ export function getAppointmentsForDay(state, day) {
 export function getInterview(state, interview){
   const interviewers = state.interviewers;
   let results = {};
+  
+  if (!interview) {
+    return null;
+  }
+
   if (interviewers !== null) {
     for (let selected in interviewers){
-      console.log(interview.interviewer)
       if (selected === (interview.interviewer).toString()){
         results.student = interview.student;
         results.interviewer = interviewers[selected];
@@ -39,21 +43,15 @@ export function getInterviewersForDay(state, day) {
     if (filteredDays.length === 0) {
       return [];
     }
-    const ids = filteredDays[0].appointments;
-    const result = Object.values(state.appointments).filter((selected) => {
-      for (const id of ids) {
-        if ((id === selected.id) && (selected.interview !== null)) {
-          return selected;
-        }
+    
+    const ids = filteredDays[0];
+    ids.interviewers.forEach((interviewer) => {
+      let matchedInterviewer = state.interviewers[interviewer];
+      if (matchedInterviewer) {
+        filteredInterviewers.push(matchedInterviewer);
       }
     });
-    for (let no of result){
-      for (let interviewer in state.interviewers){
-        if (no.interview.interviewer === parseInt(interviewer)){
-          filteredInterviewers.push(state.interviewers[interviewer]);
-        }
-      }
-    }
   }
+
   return filteredInterviewers;
 }

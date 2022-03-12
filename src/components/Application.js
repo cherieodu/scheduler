@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
-import { getAppointmentsForDay, getInterviewersForDay } from "helpers/selectors";
+import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
 import Appointment from "./Appointment";
 import "components/Application.scss";
 import DayList from "./DayList";
 
-export default function Application(props) {
+export default function Application() {
   
   const [state, setState] = useState({
     chosenDay: "Monday",
@@ -33,16 +33,38 @@ export default function Application(props) {
     
   }, []);
 
+  function bookInterview(id, interview) {
+    console.log(id, interview);
+
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    setState({...state, appointments});
+  }
+  console.log(state);
+  const interviewers = getInterviewersForDay(state, state.chosenDay);
   dailyAppointments = getAppointmentsForDay(state, state.chosenDay);
 
-  const schedule = dailyAppointments.map((appointment) => (
-    <Appointment 
-      key={appointment.id} 
-      {...appointment} 
-    />
-  ));
-
-  const interviewers = getInterviewersForDay(state, state.chosenDay);
+  const schedule = dailyAppointments.map((appointment) => {
+    const interview = getInterview(state, appointment.interview);
+    return (
+      <Appointment 
+        key={appointment.id} 
+        id={appointment.id}
+        time={appointment.time}
+        interview={interview}
+        interviewers={interviewers}
+        bookInterview={bookInterview}
+      />
+    )
+  });
 
   return (
     <main className="layout">
@@ -68,7 +90,7 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         {schedule}
-        <Appointment key="last" time="5pm" interviewers={interviewers} />
+        <Appointment key="last" time="5pm" />
       </section>
     </main>
   );

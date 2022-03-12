@@ -16,6 +16,17 @@ export default function Appointment(props){
     props.interview ? SHOW : EMPTY
   );
   
+  function save(name, interviewer) {
+    const interview = {
+      student: name,
+      interviewer
+    };
+
+    props.bookInterview(props.id, interview);
+    transition(SHOW);
+  }
+
+  //console.log('props.interviewers', props.interviewers);
 
   return (
     <article className="appointment">
@@ -31,6 +42,7 @@ export default function Appointment(props){
         <Form
           onCancel={() => back(EMPTY)}
           interviewers={props.interviewers}
+          onSave={save}
         />
       )}
     </article>
