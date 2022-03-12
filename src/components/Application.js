@@ -46,9 +46,13 @@ export default function Application() {
       [id]: appointment
     };
 
-    setState({...state, appointments});
+    return axios
+      .put(`/api/appointments/${id}`, appointment) // send the new appointment info to the server
+      .then(() => {
+        setState({...state, appointments});
+      });
   }
-  console.log(state);
+ 
   const interviewers = getInterviewersForDay(state, state.chosenDay);
   dailyAppointments = getAppointmentsForDay(state, state.chosenDay);
 
