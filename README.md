@@ -31,3 +31,13 @@ npm test
 ```sh
 npm run storybook
 ```
+## Screenshots
+
+### Main View
+![Scheduler App by Chérie Oduwole](https://github.com/cherieodu/scheduler/blob/master/public/images/Main%20View.JPG?raw=true)
+<br><br>
+### On Edit
+![Scheduler App by Chérie Oduwole](https://github.com/cherieodu/scheduler/blob/master/public/images/Edit%20View.JPG?raw=true)
+<br><br>
+### On Delete
+![Scheduler App by Chérie Oduwole](https://github.com/cherieodu/scheduler/blob/master/public/images/Delete%20View.JPG?raw=true)
