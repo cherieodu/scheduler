@@ -3,9 +3,9 @@ import { useState } from "react";
 export default function useVisualMode(initial){
   const [mode, setMode] = useState(initial);
   const [history, setHistory] = useState([initial]);
-  const [position, setPosition] = useState(history.length - 1);
 
   function transition(newMode, replace = false){
+    
     if (replace){
       let historyCopy = history;
       historyCopy.splice(historyCopy.length - 1, 1);
@@ -13,21 +13,27 @@ export default function useVisualMode(initial){
       setHistory(historyCopy);
       setMode(history[history.length - 1]);
     } else {
-      setHistory(prev => ([...prev, newMode]));
+      let historyCopy = history;
+      if (history[history.length - 1] !== newMode){
+        historyCopy.push(newMode);
+      }
+      setHistory(historyCopy);
       setMode(newMode);
-    } setPosition(history.length - 1); 
+    }
+    
+    
   }
 
   function back(){
     if (history.length > 2){
-      setPosition(position - 1);
-      if (position <= 0) {
-        setMode(history[0]);
-      } else {
-        setMode(history[position]);
-      }
+      setMode(history[history.length - 2]);
     } else {
       setMode(history[0]);
+    }
+    if (history[history.length - 1] === 'ERROR_SAVE' || 'ERROR_DELETE') {
+      let historyCopy = history;
+      historyCopy.splice(historyCopy.length - 1, 1);
+      setHistory(historyCopy);
     }
   }
   return {mode, transition, back};

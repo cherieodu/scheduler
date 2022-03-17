@@ -28,6 +28,7 @@ export default function useApplicationData() {
     
   }, []);
   
+  /* Function adds new appointment details to the database */
   function bookInterview(id, interview) {
   
     const appointment = {
@@ -49,6 +50,7 @@ export default function useApplicationData() {
       });
   }
   
+  /* Function deletes appointments from the database */
   function cancelInterview(id) {
     const appointment = {
       ...state.appointments[id],

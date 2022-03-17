@@ -20,7 +20,7 @@ export default function Form(props){
   };
 
   /**
-   * Function sets the error message is a student/interviewer isn't selected
+   * Function sets the error message is a student/interviewer isn't selected.
    * 
    */
   function validateAppointment() {
